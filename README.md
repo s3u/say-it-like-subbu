@@ -1,6 +1,6 @@
-# LangChain Blog Indexer
+# Say it Like Subbu
 
-This project is designed to crawl a blog, extract its content, split the content into manageable chunks, and index these chunks into an OpenSearch vector store. This allows for efficient searching and retrieval of blog content using vector embeddings.
+This is my holiday prokect to create a small bot that answers questions based on the things I wrote in the past. I use a locally running OpenSearch (the AWS Serverless version is pricey) to create a RAG index, and use Bedrock to answer questions. I used GitHub Copilot to help me write code.
 
 ## Getting Started
 
