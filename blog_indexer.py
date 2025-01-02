@@ -1,3 +1,7 @@
+import time
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlparse
 import bs4
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -6,11 +10,6 @@ from langchain_community.vectorstores import OpenSearchVectorSearch
 
 start_url = "https://www.subbu.org"
 index_name = "subbu_blog"
-
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse
-import time
 
 def crawl(url, domain, visited_links):
     """
@@ -38,8 +37,6 @@ def crawl(url, domain, visited_links):
     soup = BeautifulSoup(response.text, 'html.parser')
     for link in soup.find_all('a', href=True):
         href = link['href']
-        # if href.endswith('.xml'):
-        #     return
         full_url = urljoin(url, href)
         if urlparse(full_url).netloc == domain:
             crawl(full_url, domain, visited_links)
@@ -62,10 +59,12 @@ def crawl_the_blog(start_url):
     crawl(start_url, domain, visited_links)
     return visited_links 
 
+# Crawl the blog and collect links
 web_links = crawl_the_blog(start_url)
 print()
 print(f"Found links: {len(web_links)}")
 
+# Initialize embeddings
 embeddings = BedrockEmbeddings(model_id="amazon.titan-embed-text-v2:0")
 
 # Load and chunk contents of the blog
@@ -79,11 +78,11 @@ loader = WebBaseLoader(
 )
 docs = loader.load()
 
-
+# Split documents into chunks
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-
 all_splits = text_splitter.split_documents(docs)
 
+# Initialize vector store and index documents
 vector_store = OpenSearchVectorSearch.from_documents(
     all_splits,
     embeddings, 
@@ -93,8 +92,9 @@ vector_store = OpenSearchVectorSearch.from_documents(
 )
 
 print(f"Split blog post into {len(all_splits)} sub-documents.")
+print("Now indexing blog content...")
 
 # Index chunks
 response = vector_store.add_documents(documents=all_splits, bulk_size=1000)
-print(response)
+print("Done indexing blog content.")
 

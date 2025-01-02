@@ -1,14 +1,27 @@
+# AI and Machine Learning
 anthropic
+
+# Web Scraping
 beautifulsoup4
+lxml
+
+# AWS Services
 boto3
+opensearch-py
+
+# LangChain Libraries
 langchain
 langchain-aws
 langchain-community
 langchain-core
 langchain-openai
 langchain-text-splitters
+
+# Graph Libraries
 langgraph
-lxml
-opensearch-py
+
+# HTTP Requests
 requests
+
+# Typing Extensions
 typing_extensions

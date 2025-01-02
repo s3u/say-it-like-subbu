@@ -18,7 +18,11 @@ Thumbs.db
 .idea/
 *.swp
 
-scratchpad.md 
-
+# Jupyter Notebook checkpoints
 .ipynb_checkpoints
+
+# Virtual environments
 .venv
+
+# Scratchpad
+scratchpad.md

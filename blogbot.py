@@ -1,31 +1,29 @@
 import os
 import bs4
+from typing_extensions import List, TypedDict
 from langchain import hub
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_core.documents import Document
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_text_splitters import CharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter, CharacterTextSplitter
 from langgraph.graph import START, StateGraph
-from typing_extensions import List, TypedDict
-from langchain_aws import ChatBedrock
-from langchain_aws import BedrockEmbeddings
+from langchain_aws import ChatBedrock, BedrockEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_community.vectorstores import OpenSearchVectorSearch
 
 index_name = "subbu_blog"
-
 model_id = "anthropic.claude-3-5-sonnet-20241022-v2:0"
 
 os.environ["LANGCHAIN_TRACING_V2"] = "True"
 os.environ["LANGCHAIN_API_KEY"] = "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"
 
 llm = ChatBedrock(model=model_id, beta_use_converse_api=True)
-
 embeddings = BedrockEmbeddings(model_id="amazon.titan-embed-text-v2:0")
 
-vector_store = OpenSearchVectorSearch(opensearch_url="http://localhost:9200",
-                                      index_name=index_name,
-                                      embedding_function=embeddings)
+vector_store = OpenSearchVectorSearch(
+    opensearch_url="http://localhost:9200",
+    index_name=index_name,
+    embedding_function=embeddings
+)
 
 # Define prompt for question-answering
 prompt = hub.pull("rlm/rag-prompt")
