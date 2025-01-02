@@ -20,8 +20,9 @@ def crawl(url, domain, visited_links):
     visited_links.add(url)
     print(f"Visited: {url}")
 
+    headers = {'User-Agent': 'Mozilla/5.0 (compatible; MyCrawler/1.0)'}
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
         response.raise_for_status()
     except requests.RequestException as e:
         print(f"Failed to retrieve {url}: {e}")
@@ -31,7 +32,8 @@ def crawl(url, domain, visited_links):
     for link in soup.find_all('a', href=True):
         href = link['href']
         full_url = urljoin(url, href)
-        if urlparse(full_url).netloc == domain:
+        parsed_url = urlparse(full_url)
+        if parsed_url.scheme in ['http', 'https'] and parsed_url.netloc == domain:
             crawl(full_url, domain, visited_links)
         time.sleep(0.5)  # Be polite and avoid overwhelming the server
 
@@ -49,3 +51,13 @@ def crawl_the_blog(start_url):
     visited_links = set()
     crawl(start_url, domain, visited_links)
     return visited_links
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) != 2:
+        print("Usage: python crawler.py <start_url>")
+        sys.exit(1)
+    
+    start_url = sys.argv[1]
+    visited_links = crawl_the_blog(start_url)
+    print(f"Total visited links: {len(visited_links)}")

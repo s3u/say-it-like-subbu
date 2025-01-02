@@ -9,9 +9,11 @@ from langchain_aws import BedrockEmbeddings
 from langchain_community.vectorstores import OpenSearchVectorSearch
 
 start_url = "https://www.subbu.org"
-index_name = "subbu_blog"
+index_name = "subbu_stuff"
+max_depth = 10  # Limit the depth of recursion
+max_size = 10 * 1024 * 1024  # 10 MB limit for page size
 
-def crawl(url, domain, visited_links):
+def crawl(url, domain, visited_links, depth=0):
     """
     Recursively crawls a given URL and collects all unique links within the same domain.
 
@@ -19,30 +21,45 @@ def crawl(url, domain, visited_links):
         url (str): The URL to start crawling from.
         domain (str): The domain to limit the crawl to.
         visited_links (set): A set of URLs that have already been visited.
+        depth (int): The current depth of recursion.
 
     The function checks if the URL has already been visited. If not, it adds the URL to the visited set and attempts to retrieve the page content. If successful, it parses the page for links and recursively crawls each link that belongs to the same domain. The function includes a delay between requests to avoid overwhelming the server.
     """
-    if url in visited_links:
+    if url in visited_links or depth > max_depth:
         return
     visited_links.add(url)
     print(".", end='', flush=True)
 
+    headers = {'User-Agent': 'Mozilla/5.0 (compatible; MyCrawler/1.0)'}
+ 
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=headers, stream=True)
         response.raise_for_status()
+
+        # Check for non-HTML content
+        if 'text/html' not in response.headers.get('Content-Type', ''):
+            print(f"Skipping non-HTML content at {url}")
+            return
+
+        # Check for large pages
+        if int(response.headers.get('Content-Length', 0)) > max_size:
+            print(f"Skipping large page at {url}")
+            return
+
+        response_content = response.content
     except requests.RequestException as e:
         print(f"Failed to retrieve {url}: {e}")
         return
 
-    soup = BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response_content, 'html.parser')
     for link in soup.find_all('a', href=True):
         href = link['href']
         full_url = urljoin(url, href)
         if urlparse(full_url).netloc == domain:
-            crawl(full_url, domain, visited_links)
+            crawl(full_url, domain, visited_links, depth + 1)
         time.sleep(0.1)  # Be polite and avoid overwhelming the server
 
-def crawl_the_blog(start_url):
+def crawl_the_site(start_url):
     """
     Recursively crawls a blog starting from the given URL and collects all unique links within the same domain.
 
@@ -60,7 +77,7 @@ def crawl_the_blog(start_url):
     return visited_links 
 
 # Crawl the blog and collect links
-web_links = crawl_the_blog(start_url)
+web_links = crawl_the_site(start_url)
 print()
 print(f"Found links: {len(web_links)}")
 
