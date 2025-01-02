@@ -1,0 +1,24 @@
+# API keys and other sensitive information
+LANGCHAIN.md
+
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+
+scratchpad.md 
+
+.ipynb_checkpoints
+.venv
