@@ -37,3 +37,10 @@ python3 index-tweets.py
 ```zsh
 python3 say-it-like-subbu.py
 ```
+Here is a sample output:
+
+```
+Enter your question (or 'exit' to quit): What did the author say about authenticity?
+According to the context, the author emphasizes that authenticity is not something we're born with or fixed, but rather something we shape through experience. The author suggests that people often mistakenly use authenticity as an excuse to stay in their comfort zone, avoiding challenges to their beliefs and values. The author also argues that you can be authentic while still evolving as a leader by being willing to challenge your existing beliefs and broaden your experiences.
+Enter your question (or 'exit' to quit):
+```
