@@ -1,10 +1,10 @@
-# Say it Like Subbu
+# A RAG App
 
-This is my holiday prokect to create a small bot that answers questions based on the things I wrote in the past. I use a locally running OpenSearch (the AWS Serverless version is pricey) to create a RAG index, and use Bedrock to answer questions. I used GitHub Copilot to help me write code.
+This is my holiday project: to create a small bot that answers questions based on my past writing. I used a locally running OpenSearch to create a RAG index and Bedrock to answer questions. I used GitHub Copilot to help me write code.
 
 ## Getting Started
 
-Start with the usual python plubming. 
+Start with the usual Python plumbing.
 
 ```zsh
 sudo pip3 install virtualenv
@@ -13,7 +13,7 @@ source .venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 
-Install and start OpenSearch.
+Install and start OpenSearch. I am using the local version as the AWS hosted OpenSearch is pricey.
 
 ```zsh
 brew install opensearch
@@ -21,7 +21,7 @@ opensearch-plugin install https://repo1.maven.org/maven2/org/opensearch/plugin/o
 /opt/homebrew/opt/opensearch/bin/opensearch
 ```
 
-Make sure you have the right access keys to make AWS API calls from your environment. Also [get a LangChain API_KEY](https://docs.smith.langchain.com/administration/how_to_guides/organization_management/create_account_api_key) and set it as an environment variable in your working environment.
+Ensure you have access keys to make AWS API calls from your environment. Also, [get a LangChain API_KEY](https://docs.smith.langchain.com/administration/how_to_guides/organization_management/create_account_api_key) and set it as an environment variable in your working environment.
 
 ## Build the RAG
 
@@ -37,6 +37,7 @@ python3 index-tweets.py
 ```zsh
 python3 say-it-like-subbu.py
 ```
+
 Here is a sample output:
 
 ```
