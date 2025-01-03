@@ -23,10 +23,11 @@ opensearch-plugin install https://repo1.maven.org/maven2/org/opensearch/plugin/o
 
 ## Build the RAG
 
-This will take several minutes to complete.
+These will take several minutes to complete.
 
 ```zsh
-python3 blog_indexer.py
+python3 index-the-blog.py
+python3 index-tweets.py
 ```
 
 ### Try the bot
