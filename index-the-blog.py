@@ -1,13 +1,8 @@
-import time
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse
 import bs4
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_aws import BedrockEmbeddings
 from langchain_community.vectorstores import OpenSearchVectorSearch
-import os
 from crawler import crawl_the_site
 
 start_url = "https://www.subbu.org"
@@ -39,7 +34,7 @@ all_splits = text_splitter.split_documents(docs)
 # Initialize vector store and index documents
 vector_store = OpenSearchVectorSearch.from_documents(
     all_splits,
-    embeddings, 
+    embeddings,
     bulk_size=1000,
     opensearch_url="http://localhost:9200",
     index_name=index_name
