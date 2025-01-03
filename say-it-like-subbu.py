@@ -1,5 +1,4 @@
 import os
-import bs4
 from typing_extensions import List, TypedDict
 from langchain import hub
 from langchain_community.document_loaders import WebBaseLoader
@@ -15,7 +14,6 @@ model_id = "anthropic.claude-3-5-sonnet-20241022-v2:0"
 opensearch_url = "http://localhost:9200"
 
 os.environ["LANGCHAIN_TRACING_V2"] = "True"
-os.environ["LANGCHAIN_API_KEY"] = "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"
 os.environ["USER_AGENT"] = "Mozilla/5.0 (compatible; MyCrawler/1.0)"
 
 llm = ChatBedrock(model=model_id, beta_use_converse_api=True)
