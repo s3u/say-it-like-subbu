@@ -21,7 +21,7 @@ opensearch-plugin install https://repo1.maven.org/maven2/org/opensearch/plugin/o
 /opt/homebrew/opt/opensearch/bin/opensearch
 ```
 
-Make sure you have the right access keys to make AWS API calls from your environment.
+Make sure you have the right access keys to make AWS API calls from your environment. Also [get a LangChain API_KEY](https://docs.smith.langchain.com/administration/how_to_guides/organization_management/create_account_api_key) and set it as an environment variable in your working environment.
 
 ## Build the RAG
 
