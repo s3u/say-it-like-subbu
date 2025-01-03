@@ -21,6 +21,8 @@ opensearch-plugin install https://repo1.maven.org/maven2/org/opensearch/plugin/o
 /opt/homebrew/opt/opensearch/bin/opensearch
 ```
 
+Make sure you have the right access keys to make AWS API calls from your environment.
+
 ## Build the RAG
 
 These will take several minutes to complete.
